@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a href="{{ site.portfolio_url | default: '/' }}" class="site-title">
+        {% if site.avatar_url %}
+          <img src="{{ site.avatar_url }}" alt="{{ site.name }} avatar" class="site-logo">
+        {% endif %}
+        {{ site.title }}
+      </a>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="#courses">Courses</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap site-main">
+    {{ content }}
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; {{ site.time | date: "%Y" }} {{ site.name }} — Cybersecurity Portfolio</p>
+    </div>
+  </footer>
+</body>
+</html>

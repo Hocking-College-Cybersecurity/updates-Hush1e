@@ -1,0 +1,74 @@
+name: Student Portfolio Automation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    branches: [main]
+
+jobs:
+  update-portfolio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby and Jekyll
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+      - run: |
+          gem install bundler
+          bundle install || true
+          gem install jekyll
+
+      - name: Parse PR body for student info
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const info = {};
+            // Simple parsing logic (expand as needed)
+            for (const line of body.split('\n')) {
+              if (line.startsWith('- **Full Name:**')) info.name = line.replace('- **Full Name:**', '').trim();
+              if (line.startsWith('- **Bio')) info.bio = line.replace('- **Bio (1-2 sentences):**', '').trim();
+              if (line.startsWith('- **Profile Picture URL')) info.avatar = line.replace('- **Profile Picture URL (optional):**', '').trim();
+              if (line.startsWith('- **Course Name:**')) info.course = line.replace('- **Course Name:**', '').trim();
+              if (line.startsWith('- **Project Title:**')) info.project = line.replace('- **Project Title:**', '').trim();
+            }
+            core.setOutput('student_info', JSON.stringify(info));
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Run update_portfolio.py to update YAML/data files
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          python scripts/update_portfolio.py
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update portfolio data from PR"
+          branch: ${{ github.head_ref }}
+
+      - name: Build site with Jekyll
+        run: |
+          bundle exec jekyll build || jekyll build
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Thank you for your submission! The automation has processed your info. Please check the preview or wait for instructor review.`
+            });

@@ -1,0 +1,8 @@
+- name: Introduction to Cybersecurity
+  code: CYB-101
+  term: Fall 2024
+  description: "Fundamentals of cybersecurity, threat landscapes, and basic defense strategies."
+- name: Network Security
+  code: CYB-201
+  term: Spring 2025
+  description: "Hands-on labs with firewalls, IDS/IPS, and secure network design."

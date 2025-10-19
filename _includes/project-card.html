@@ -1,0 +1,18 @@
+<div class="project-card">
+  <h3>{{ project.title }}</h3>
+  <p><strong>Course:</strong> {{ project.course }} | <strong>Year:</strong> {{ project.year }}</p>
+  <p>{{ project.description }}</p>
+  <a href="{{ project.link }}" target="_blank" class="portfolio-link">View Project</a>
+</div>
+
+<div class="student-card">
+  <div class="student-meta">
+    <img src="{{ student.avatar_url }}" alt="{{ student.name }} avatar" class="student-avatar">
+    <div>
+      <h3 class="student-name">{{ student.name }}</h3>
+      <p class="student-title">{{ student.title }}</p>
+    </div>
+  </div>
+  <p class="student-bio">{{ student.bio }}</p>
+  <a href="{{ student.url }}" target="_blank" class="portfolio-link">View Portfolio</a>
+</div>

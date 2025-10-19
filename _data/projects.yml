@@ -1,0 +1,10 @@
+- title: Memory Forensics Project
+  course: CYB-201
+  description: "Analyzed memory dumps to detect malware using Volatility."
+  link: https://github.com/yourusername/memory-forensics-project
+  year: 2025
+- title: Vulnerability Scanner Automation
+  course: CYB-201
+  description: "Built a Python tool to automate vulnerability scanning and reporting."
+  link: https://github.com/yourusername/vuln-scanner
+  year: 2025
